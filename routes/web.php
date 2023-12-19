@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,4 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', fn () => abort(Response::HTTP_NOT_FOUND));
+Route::get('posts/{slug}', function ($slug) {
+    $post = Post::find($slug);
+
+    return view('post', [
+        'post' => $post
+    ]);
+})->where('slug', '[A-z_\-]+');
