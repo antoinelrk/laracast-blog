@@ -16,7 +16,9 @@ use Symfony\Component\HttpFoundation\Response;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('posts', [
+        'posts' => Post::all()
+    ]);
 });
 
 Route::get('posts/{slug}', function ($slug) {
