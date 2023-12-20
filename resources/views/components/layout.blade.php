@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="css/app.css">
 </head>
 <body class="flex flex-col gap-y-4 p-3">
     <h1 class="text-3xl text-center">My Blog</h1>
