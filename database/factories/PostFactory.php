@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\User;
 use App\Models\Category;
+use App\Traits\FakerTrait;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class PostFactory extends Factory
 {
+    use FakerTrait;
+
     /**
      * Define the model's default state.
      *
@@ -26,8 +29,8 @@ class PostFactory extends Factory
             'category_id' => rand(1, Category::count()),
             'title' => $postName,
             'slug' => Str::slug($postName),
-            'excerpt' => $this->faker->sentence,
-            'body' => $this->faker->paragraph,
+            'excerpt' => $this->formatParagraphs($this->faker->paragraphs(rand(1, 2))),
+            'body' => $this->formatParagraphs($this->faker->paragraphs(rand(4, 10))),
         ];
     }
 }
