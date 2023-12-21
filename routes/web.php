@@ -6,7 +6,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('posts', [ 
+    return view('posts', [
+        'categories' => Category::all(),
         'posts' => Post::latest()
                         ->with('category', 'author')
                         ->get()
@@ -18,9 +19,15 @@ Route::get('posts/{post}', function (Post $post) {
 });
 
 Route::get('categories/{category}', function (Category $category) {
-    return view('posts', ['posts' => $category->posts->load('category', 'author')]);
+    return view('posts', [
+        'posts' => $category->posts->load('category', 'author'),
+        'categories' => Category::where('slug', '!=', $category->slug)->get(),
+        'category' => $category
+    ]);
 })->name('categories');
 
 Route::get('authors/{author:username}', function (User $author) {
-    return view('posts', ['posts' => $author->posts->load('category', 'author')]);
+    return view('posts', [
+        'posts' => $author->posts->load('category', 'author')
+    ]);
 })->name('authors');
