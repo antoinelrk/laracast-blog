@@ -20,9 +20,9 @@ class Post extends Model
         return 'slug';
     }
 
-    public function user()
+    public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function category()

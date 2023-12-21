@@ -6,7 +6,7 @@
             href="/categories/{{ $post->category->slug }}">
             {{ strtoupper($post->category->name) }}
         </a>
-        <span class="text-sm text-blue-500">by {{ $post->user->username }}</span>
+        <a href="/authors/{{ $post->author->username }}" class="text-sm text-blue-500 hover:underline">by {{ $post->author->username }}</a>
         {!! $post->body !!}
     </article>
 </x-layout>
