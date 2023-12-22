@@ -1,22 +1,14 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('posts', [
-        'categories' => Category::all(),
-        'posts' => Post::latest()
-                        ->with('category', 'author')
-                        ->get()
-    ]);
-})->name('home');
+Route::get('/', [PostController::class, 'index'])->name('home');
 
-Route::get('posts/{post}', function (Post $post) {
-    return view('post', ['post' => $post->load('category', 'author')]);
-});
+Route::get('posts/{post}', [PostController::class, 'show']);
 
 Route::get('categories/{category}', function (Category $category) {
     return view('posts', [

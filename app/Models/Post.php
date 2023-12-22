@@ -20,6 +20,7 @@ class Post extends Model
         return 'slug';
     }
 
+    //¤ Relations ¤//
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -28,5 +29,15 @@ class Post extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    //¤ Scopes ¤//
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, fn($query, $search) =>
+            $query
+                ->where('title', 'like', '%' . $search . '%')
+                ->orWhere('excerpt', 'like', '%' . $search . '%')
+                ->orWhere('body', 'like', '%' . $search . '%'));
     }
 }
