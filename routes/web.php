@@ -32,7 +32,8 @@ Route::controller(SessionController::class)
     ->name('session.')
     ->group(function () {
         Route::post('logout', 'destroy')->name('logout');
-        Route::post('login', 'create')->name('create');
+        Route::get('login', fn() => view('sessions.create'))->name('create');
+        Route::post('login', 'store')->name('store');
 });
 
 /**
