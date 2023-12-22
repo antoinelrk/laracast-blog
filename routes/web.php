@@ -2,17 +2,43 @@
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
-use App\Models\Category;
-use App\Models\Post;
-use App\Models\User;
+use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [PostController::class, 'index'])->name('home');
-Route::get('posts/{post}', [PostController::class, 'show']);
+/**
+ * Posts routes
+ */
+Route::controller(PostController::class)
+    ->name('posts')
+    ->group(function () {
+        Route::get('/', 'index')->name('home');
+        Route::get('posts/{post}', 'show')->name('show');
+});
 
-Route::get('register', [RegisterController::class, 'create'])->name('register.create');
-Route::post('register', [RegisterController::class, 'store'])->name('register.store');
+/**
+ * Register's routes
+ */
+Route::controller(RegisterController::class)
+    ->name('register.')
+    ->group(function () {
+        Route::get('register', 'create')->name('create');
+        Route::post('register', 'store')->name('store');
+});
 
-Route::get('/test', function () {
+/**
+ * Session's routes
+ */
+Route::controller(SessionController::class)
+    ->name('session.')
+    ->group(function () {
+        Route::post('logout', 'destroy')->name('logout');
+        Route::post('login', 'create')->name('create');
+});
+
+/**
+ * Test de notifications
+ */
+Route::get('/notification', function () {
+    // TODO: Mettre la clé dans une constant
     return redirect('/')->with('warning', "Message de test");
 });
