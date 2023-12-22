@@ -12,3 +12,7 @@ Route::get('posts/{post}', [PostController::class, 'show']);
 
 Route::get('register', [RegisterController::class, 'create'])->name('register.create');
 Route::post('register', [RegisterController::class, 'store'])->name('register.store');
+
+Route::get('/test', function () {
+    return redirect('/')->with('warning', "Message de test");
+});
