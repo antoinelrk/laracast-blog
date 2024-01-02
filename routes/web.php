@@ -1,10 +1,13 @@
 <?php
 
+use MailchimpMarketing\ApiClient;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\RegisterController;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Posts routes
@@ -41,11 +44,24 @@ Route::controller(CommentController::class)
  */
 Route::controller(SessionController::class)
     ->name('session.')
-    ->group(function ($request) {
+    ->group(function () {
         Route::post('logout', 'destroy')->name('logout');
-        // dd($request);
         Route::get('login', fn() => view('sessions.create'))->name('create');
         Route::post('login', 'store')->name('store');
+});
+
+/**
+ * Newsletter's routes
+ */
+Route::controller(NewsletterController::class)
+    ->name('newsletter.')
+    ->prefix('newsletter')
+    ->group(function () {
+        Route::get('/', 'index');
+        Route::post('subscribe', 'subscribe')
+            ->name('subscribe');
+        Route::post('/unsubscribe', 'unsubscribe')
+            ->name('unsubscribe');
 });
 
 /**
