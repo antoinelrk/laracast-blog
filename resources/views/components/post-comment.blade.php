@@ -3,7 +3,7 @@
 <x-panel class="bg-gray-50">
     <article class="flex space-x-4">
         <div class="flex-shrink-0">
-            <img class="rounded-xl" src="https://i.pravatar.cc/60?u={{ $comment->id }}" width="60" height="60" alt="">
+            <img class="rounded-xl" src="https://i.pravatar.cc/60?u={{ $comment->user_id }}" width="60" height="60" alt="">
         </div>
         <div>
             <header class="mb-4">

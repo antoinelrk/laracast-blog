@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\SessionController;
+use App\Http\Controllers\RegisterController;
 
 /**
  * Posts routes
@@ -23,6 +24,16 @@ Route::controller(RegisterController::class)
     ->group(function () {
         Route::get('register', 'create')->name('create');
         Route::post('register', 'store')->name('store');
+});
+
+/**
+ * Comment's routes
+ */
+Route::controller(CommentController::class)
+    ->name('comment.')
+    ->group(function () {
+        Route::post('posts/{post:slug}/comments', 'store')
+            ->name('store');
 });
 
 /**
