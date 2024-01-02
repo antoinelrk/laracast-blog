@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\LoginRequest;
 use App\Traits\SessionTrait;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class SessionController extends Controller
 {
-    use SessionTrait;
-
     public function store(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
 
-        if ($this->isValid($credentials)) {
-            Auth::attempt($credentials);
-            return redirect('/')->with('success', "Welcome home " . Auth::user()->name . " !");
+        if (!Auth::attempt($credentials)) {
+            throw ValidationException::withMessages([
+                'email' => 'Your provided credentials could not be verified.'
+            ]);
         }
-
-        return back()->with('error', 'Password not match!');
+        
+        session()->regenerate();
+        return redirect('/')->with('success', "Welcome home " . Auth::user()->name . " !");
     }
 
     public function destroy()
