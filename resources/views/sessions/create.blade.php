@@ -37,6 +37,13 @@
                     >
     
                 </div>
+
+                <div class="mb-6">
+                    <input type="checkbox" name="remember" id="remember">
+                    <label for="remember">
+                        Remember me!
+                    </label>
+                </div>
                 
                 <!-- Submit button -->
                 <div class="mb-6">
