@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
  * Posts routes
  */
 Route::controller(PostController::class)
-    ->name('posts')
+    ->name('posts.')
     ->group(function () {
         Route::get('/', 'index')->name('home');
         Route::get('posts/{post}', 'show')->name('show');
@@ -65,4 +65,25 @@ Route::name('newsletter.')
 Route::get('/notification', function () {
     // TODO: Mettre la clé dans une constant
     return redirect('/')->with('warning', "Message de test");
+});
+
+/**
+ * Admin's routes
+ */
+Route::name('admin.')
+    ->middleware('admin')
+    ->prefix('admin')
+    ->group(function () {
+        /**
+         * Post's section
+        */
+        Route::name('posts.')
+            ->prefix('posts')
+            ->group(function () {
+                Route::get('/create', [PostController::class, 'create'])
+                    ->name('create');
+
+                Route::post('/', [PostController::class, 'store'])
+                    ->name('store');
+        });
 });

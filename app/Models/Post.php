@@ -11,7 +11,10 @@ class Post extends Model
 
     public $fillable = [
         'title',
+        'slug',
         'excerpt',
+        'category_id',
+        'user_id',
         'body'
     ];
 

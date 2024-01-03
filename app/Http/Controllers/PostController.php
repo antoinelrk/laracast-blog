@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Contracts\View\View;
+use App\Http\Requests\Posts\CreateRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends Controller
 {
@@ -31,5 +35,27 @@ class PostController extends Controller
         return view('posts.show', [
             'post' => $post->load('category', 'author')
         ]);
+    }
+
+    public function create(): View
+    {
+        return view('posts.create', [
+            'categories' => Category::get(['id', 'name'])
+        ]);
+    }
+
+    public function store(CreateRequest $request)
+    {
+        $data = [
+            ...$request->all(),
+            ...[
+                'user_id' => auth()->user()->id,
+                'slug' => Str::slug($request->title)
+            ]
+        ];
+
+        $post = Post::create($data);
+
+        return redirect(route('posts.show', $post));
     }
 }
