@@ -1,13 +1,13 @@
 <?php
 
-use MailchimpMarketing\ApiClient;
+use App\Services\MailchimpNewsletter;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\RegisterController;
-use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Posts routes
@@ -53,15 +53,10 @@ Route::controller(SessionController::class)
 /**
  * Newsletter's routes
  */
-Route::controller(NewsletterController::class)
-    ->name('newsletter.')
+Route::name('newsletter.')
     ->prefix('newsletter')
     ->group(function () {
-        Route::get('/', 'index');
-        Route::post('subscribe', 'subscribe')
-            ->name('subscribe');
-        Route::post('/unsubscribe', 'unsubscribe')
-            ->name('unsubscribe');
+        Route::post('subscribe', NewsletterController::class)->name('subscribe');
 });
 
 /**

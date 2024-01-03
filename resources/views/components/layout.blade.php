@@ -48,16 +48,6 @@
             <h5 class="text-3xl">Stay in touch with the latest posts</h5>
             <p class="text-sm mt-3">Promise to keep the inbox clean. No bugs.</p>
 
-            <div class="m-10">
-                <form action="{{ route('newsletter.unsubscribe') }}" method="POST">
-                    @csrf
-                    <label for="email">email</label>
-                    <input type="email" name="email" placeholder="Email to unsubscribe">
-
-                    <x-submit-button>unsubscribe</x-submit-button>
-                </form>
-            </div>
-
             <div class="mt-10">
                 <div class="relative inline-block mx-auto lg:bg-gray-200 rounded-full">
 
