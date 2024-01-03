@@ -13,6 +13,7 @@
                         class="border border-gray-400 p-2 w-full"
                         name="title"
                         id="title"
+                        value="{{ old('title') }}"
                         required
                     >
     
@@ -30,6 +31,7 @@
                         class="border border-gray-400 p-2 w-full"
                         name="excerpt"
                         id="excerpt"
+                        value="{{ old('excerpt') }}"
                         required
                     ></textarea>
                 
@@ -47,6 +49,7 @@
                         class="border border-gray-400 p-2 w-full"
                         name="body"
                         id="body"
+                        value="{{ old('body') }}"
                         required
                     ></textarea>
                 
@@ -60,10 +63,12 @@
                         Category
                     </label>
     
-                    <select name="category_id" required>
+                    <select
+                        name="category_id"
+                        required>
                         <option disabled selected>- Select a category -</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ ucfirst($category->name) }}</option>
+                            <option value="{{ $category->id }} {{ old('category_id') == $category->id ? 'selected' : '' }}">{{ ucfirst($category->name) }}</option>
                         @endforeach
                     </select>
                 
