@@ -30,6 +30,9 @@ class CreateRequest extends FormRequest
             'excerpt' => [
                 'required'
             ],
+            'thumbnail' => [
+                'file'
+            ],
             'body' => [
                 'required'
             ],

@@ -1,7 +1,10 @@
 <x-layout>
-    <section class="px-6 py-8">
-        <x-panel class="max-w-sm mx-auto">
-            <form action="{{ route('admin.posts.store') }}" method="POST">
+    <section class="py-8 max-w-lg mx-auto">
+        <h1 class="text-lg font-bold mb-4">
+            Publish New Post
+        </h1>
+        <x-panel>
+            <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
     
                 <div class="mb-6">
@@ -20,6 +23,18 @@
                     @error('title')
                         <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                     @enderror
+                </div>
+
+                <div class="mb-6">
+                    <label for="thumbnail" class="block mb-2 uppercase font-bold text-xs text-gray-700">
+                        Thumbnail
+                    </label>
+
+                    <input
+                        type="file"
+                        name="thumbnail"
+                        id="thumbnail"
+                    >
                 </div>
 
                 <div class="mb-6">
@@ -76,7 +91,6 @@
                         <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                     @enderror
                 </div>
-
 
                 <x-submit-button>Publish</x-submit-button>
             </form>

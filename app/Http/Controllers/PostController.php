@@ -46,12 +46,16 @@ class PostController extends Controller
 
     public function store(CreateRequest $request)
     {
+        $path = $request->file('thumbnail')->store('thumbnails', 'public');
+
         $data = [
-            ...$request->all(),
-            ...[
-                'user_id' => auth()->user()->id,
-                'slug' => Str::slug($request->title)
-            ]
+            'title' => $request->title,
+            'excerpt' => $request->excerpt,
+            'body' => $request->body,
+            'user_id' => auth()->user()->id,
+            'thumbnail' => $path,
+            'category_id' => $request->category_id,
+            'slug' => Str::slug($request->title)
         ];
 
         $post = Post::create($data);
