@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         if (env('APP_ENV') === 'local') {
-            User::factory(50)->create();
+            // User::factory(50)->create();
             Category::factory(rand(1, 50))->create();
             // Post::factory(rand(200, 250))->create();
             // Comment::factory(rand(1000, 2000))->create();

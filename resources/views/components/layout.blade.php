@@ -25,11 +25,21 @@
                 <a href="/" class="text-xs font-bold uppercase hover:text-blue-500 flex items-center">Home Page</a>
 
                 @auth
-                    <a href="/account/{{ Auth::user()->username }}" class="text-xs font-bold uppercase hover:text-blue-500  flex items-center">My Account (Soon)</a>
-                    <form class="text-xs flex" action="/logout" method="POST">
-                        @csrf
-                        <button class="font-bold uppercase text-red-500 hover:text-red-300 text-xs flex items-center" type="submit">Log Out</button>
-                    </form>
+                    <x-dropdown class="flex" class="flex relative">
+                        <x-slot name="trigger">
+                            <button class="relative text-xs font-bold uppercase hover:text-blue-500 flex items-center">Welcome, {{ auth()->user()->name }}</button>
+                        </x-slot>
+                        <x-dropdown-item href="/admin/posts/create" :active="request()->is('admin/posts/create')">New Post</x-dropdown-item>
+                        <x-dropdown-item
+                            x-data="{}"
+                            @click.prevent="document.querySelector('#logout-form').submit()"
+                            class="cursor-pointer font-bold text-red-500 hover:text-white text-xs flex items-center">
+                            Log Out
+                        </x-dropdown-item>
+
+                        <form id="logout-form" class="hidden" action="/logout" method="POST">@csrf</form>
+                    </x-dropdown>
+                    
                 @else
                     <a href="/register" class="text-xs font-bold uppercase hover:text-blue-500  flex items-center">Register</a>
                     <a href="/login" class="text-xs font-bold uppercase hover:text-blue-500  flex items-center">Log In</a>

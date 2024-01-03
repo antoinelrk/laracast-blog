@@ -39,9 +39,11 @@ class PostController extends Controller
 
     public function create(): View
     {
-        return view('posts.create', [
-            'categories' => Category::get(['id', 'name'])
-        ]);
+        return view('posts.create');
+
+        // return view('posts.create', [
+        //     'categories' => Category::get(['id', 'name'])
+        // ]);
     }
 
     public function store(CreateRequest $request)
