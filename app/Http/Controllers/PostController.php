@@ -33,9 +33,16 @@ class PostController extends Controller
      */
     public function show(Post $post): View
     {
-        return view('posts.show', [
-            'post' => $post->load('category', 'author')
-        ]);
+        /**
+         * Ajouter des policies
+         */
+        if (isset($post->published_at)) {
+            return view('posts.show', [
+                'post' => $post->load('category', 'author')
+            ]);
+        }
+
+        abort(404);
     }
 
     public function create(): View

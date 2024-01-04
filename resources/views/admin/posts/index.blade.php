@@ -11,7 +11,14 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="ml-4">
                                             <div class="text-sm font-medium text-gray-900">
-                                                {{ $post->title }}
+                                                @if ($post->published_at)
+                                                <a
+                                                    class="text-blue-600 text-medium underline"
+                                                    href="/posts/{{ $post->slug }}"
+                                                    >{{ $post->title }}</a>
+                                                @else
+                                                    {{ $post->title }}
+                                                @endif
                                             </div>
                                         </div>
                                     </td>

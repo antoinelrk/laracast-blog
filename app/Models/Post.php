@@ -20,6 +20,10 @@ class Post extends Model
         'body'
     ];
 
+    public $casts = [
+        'published_at' => 'date'
+    ];
+
     public function getRouteKeyName(): string
     {
         return 'slug';
