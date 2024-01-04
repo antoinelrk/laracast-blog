@@ -3,10 +3,6 @@
 use App\Models\User;
 use Symfony\Component\HttpFoundation\Response;
 
-beforeAll(function () {
-    $user = 
-});
-
 it('registers a user', function () {
     $response = $this->post('/register', [
         'username' => 'johndoe',
