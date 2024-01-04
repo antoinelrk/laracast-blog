@@ -1,18 +1,14 @@
 <?php
 
 use App\Http\Controllers\AdminPostController;
-use App\Services\MailchimpNewsletter;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\RegisterController;
-use Illuminate\Validation\ValidationException;
 
-/**
- * Posts routes
- */
+//¤ Posts ¤//
 Route::controller(PostController::class)
     ->name('posts.')
     ->group(function () {
@@ -20,19 +16,7 @@ Route::controller(PostController::class)
         Route::get('posts/{post}', 'show')->name('show');
 });
 
-/**
- * Register's routes
- */
-Route::controller(RegisterController::class)
-    ->name('register.')
-    ->group(function () {
-        Route::get('register', 'create')->name('create');
-        Route::post('register', 'store')->name('store');
-});
-
-/**
- * Comment's routes
- */
+//¤ Comments ¤//
 Route::controller(CommentController::class)
     ->name('comment.')
     ->group(function () {
@@ -40,9 +24,7 @@ Route::controller(CommentController::class)
             ->name('store');
 });
 
-/**
- * Session's routes
- */
+//¤ Sessions (A rename: Auth) ¤//
 Route::controller(SessionController::class)
     ->name('session.')
     ->group(function () {
@@ -50,55 +32,43 @@ Route::controller(SessionController::class)
         Route::get('login', fn() => view('sessions.create'))->name('create');
         Route::post('login', 'store')->name('store');
 });
+Route::controller(RegisterController::class)
+    ->name('register.')
+    ->group(function () {
+        Route::get('register', 'create')->name('create');
+        Route::post('register', 'store')->name('store');
+});
 
-/**
- * Newsletter's routes
- */
+//¤ Newletters ¤//
 Route::name('newsletter.')
     ->prefix('newsletter')
     ->group(function () {
         Route::post('subscribe', NewsletterController::class)->name('subscribe');
 });
 
-/**
- * Test de notifications
- */
-Route::get('/notification', function () {
-    // TODO: Mettre la clé dans une constant
-    return redirect('/')->with('warning', "Message de test");
-});
-
-/**
- * Admin's routes
- */
+//¤ Administration ¤/
 Route::name('admin.')
     ->middleware('admin')
     ->prefix('admin')
     ->group(function () {
-        /**
-         * General
-         */
+        //¤ General ¤//
         Route::get('/', fn() => view('admin.index'))->name('index');
-        /**
-         * Admin Posts routes
-         */
+
+        //¤ Posts ¤//
         Route::name('posts.')
             ->controller(AdminPostController::class)
-            ->group(function () {
-                Route::get('/posts', 'index')
-                    ->name('index');
-            });
-            
-        /**
-         * Post's section
-        */
-        Route::name('posts.')
             ->prefix('posts')
             ->group(function () {
+                Route::get('/', 'index')
+                    ->name('index');
+
                 Route::get('/create', [PostController::class, 'create'])
                     ->name('create');
 
                 Route::post('/', [PostController::class, 'store'])
                     ->name('store');
-        });
+            
+                Route::get('/{posts}/edit', 'edit')
+                    ->name('edit');
+            });
 });
