@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\View\View;
 use App\Http\Requests\Posts\CreateRequest;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -52,6 +53,7 @@ class PostController extends Controller
             'body' => $request->body,
             'user_id' => auth()->user()->id,
             'thumbnail' => $path,
+            'published_at' => $request->published ? Carbon::now() : NULL,
             'category_id' => $request->category_id,
             'slug' => Str::slug($request->title)
         ];

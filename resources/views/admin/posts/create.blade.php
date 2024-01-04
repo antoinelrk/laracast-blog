@@ -8,6 +8,11 @@
             <x-form.textarea name="excerpt" />
             <x-form.textarea name="body" />
 
+            <x-form.checkbox
+                name="published"
+                label="Publish now?"
+                />
+
             <x-form.field>
                 <x-form.label name="category" />
 

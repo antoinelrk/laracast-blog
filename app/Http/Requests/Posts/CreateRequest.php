@@ -36,6 +36,7 @@ class CreateRequest extends FormRequest
             'body' => [
                 'required'
             ],
+            // 'published' => [],
             'category_id' => [
                 'required',
                 Rule::exists('categories', 'id')

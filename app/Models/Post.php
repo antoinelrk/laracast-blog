@@ -14,6 +14,7 @@ class Post extends Model
         'slug',
         'excerpt',
         'thumbnail',
+        'published_at',
         'category_id',
         'user_id',
         'body'
