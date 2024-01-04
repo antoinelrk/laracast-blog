@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\View\View;
 use App\Http\Requests\Posts\CreateRequest;
-use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends Controller
 {
@@ -19,9 +17,11 @@ class PostController extends Controller
     public function index(): View
     {    
         return view('posts.index', [
-            'posts' => Post::latest()->filter(
-                request(['search', 'category', 'author'])
-            )->paginate()->withQueryString()
+            'posts' => Post::latest()
+                ->published()
+                ->filter(request(['search', 'category', 'author']))
+                ->paginate()
+                ->withQueryString()
         ]);
     }
 
@@ -39,11 +39,7 @@ class PostController extends Controller
 
     public function create(): View
     {
-        return view('posts.create');
-
-        // return view('posts.create', [
-        //     'categories' => Category::get(['id', 'name'])
-        // ]);
+        return view('admin.posts.create');
     }
 
     public function store(CreateRequest $request)

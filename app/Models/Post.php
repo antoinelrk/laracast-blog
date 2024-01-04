@@ -41,6 +41,11 @@ class Post extends Model
     }
 
     //¤ Scopes ¤//
+    public function scopePublished($query)
+    {
+        $query->where('published_at', '!=', null);
+    }
+
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? false, fn($query, $search) =>

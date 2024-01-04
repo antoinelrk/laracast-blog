@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPostController;
 use App\Services\MailchimpNewsletter;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -74,6 +75,20 @@ Route::name('admin.')
     ->middleware('admin')
     ->prefix('admin')
     ->group(function () {
+        /**
+         * General
+         */
+        Route::get('/', fn() => view('admin.index'))->name('index');
+        /**
+         * Admin Posts routes
+         */
+        Route::name('posts.')
+            ->controller(AdminPostController::class)
+            ->group(function () {
+                Route::get('/posts', 'index')
+                    ->name('index');
+            });
+            
         /**
          * Post's section
         */
