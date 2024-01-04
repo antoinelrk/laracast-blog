@@ -1,25 +1,104 @@
 <?php
 
-use App\Http\Controllers\PostController;
-use App\Models\Category;
-use App\Models\Post;
-use App\Models\User;
+use App\Http\Controllers\AdminPostController;
+use App\Services\MailchimpNewsletter;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\SessionController;
+use App\Http\Controllers\RegisterController;
+use Illuminate\Validation\ValidationException;
 
-Route::get('/', [PostController::class, 'index'])->name('home');
+/**
+ * Posts routes
+ */
+Route::controller(PostController::class)
+    ->name('posts.')
+    ->group(function () {
+        Route::get('/', 'index')->name('home');
+        Route::get('posts/{post}', 'show')->name('show');
+});
 
-Route::get('posts/{post}', [PostController::class, 'show']);
+/**
+ * Register's routes
+ */
+Route::controller(RegisterController::class)
+    ->name('register.')
+    ->group(function () {
+        Route::get('register', 'create')->name('create');
+        Route::post('register', 'store')->name('store');
+});
 
-Route::get('categories/{category}', function (Category $category) {
-    return view('posts', [
-        'posts' => $category->posts->load('category', 'author'),
-        'categories' => Category::where('slug', '!=', $category->slug)->get(),
-        'category' => $category
-    ]);
-})->name('categories');
+/**
+ * Comment's routes
+ */
+Route::controller(CommentController::class)
+    ->name('comment.')
+    ->group(function () {
+        Route::post('posts/{post:slug}/comments', 'store')
+            ->name('store');
+});
 
-Route::get('authors/{author:username}', function (User $author) {
-    return view('posts', [
-        'posts' => $author->posts->load('category', 'author')
-    ]);
-})->name('authors');
+/**
+ * Session's routes
+ */
+Route::controller(SessionController::class)
+    ->name('session.')
+    ->group(function () {
+        Route::post('logout', 'destroy')->name('logout');
+        Route::get('login', fn() => view('sessions.create'))->name('create');
+        Route::post('login', 'store')->name('store');
+});
+
+/**
+ * Newsletter's routes
+ */
+Route::name('newsletter.')
+    ->prefix('newsletter')
+    ->group(function () {
+        Route::post('subscribe', NewsletterController::class)->name('subscribe');
+});
+
+/**
+ * Test de notifications
+ */
+Route::get('/notification', function () {
+    // TODO: Mettre la clé dans une constant
+    return redirect('/')->with('warning', "Message de test");
+});
+
+/**
+ * Admin's routes
+ */
+Route::name('admin.')
+    ->middleware('admin')
+    ->prefix('admin')
+    ->group(function () {
+        /**
+         * General
+         */
+        Route::get('/', fn() => view('admin.index'))->name('index');
+        /**
+         * Admin Posts routes
+         */
+        Route::name('posts.')
+            ->controller(AdminPostController::class)
+            ->group(function () {
+                Route::get('/posts', 'index')
+                    ->name('index');
+            });
+            
+        /**
+         * Post's section
+        */
+        Route::name('posts.')
+            ->prefix('posts')
+            ->group(function () {
+                Route::get('/create', [PostController::class, 'create'])
+                    ->name('create');
+
+                Route::post('/', [PostController::class, 'store'])
+                    ->name('store');
+        });
+});

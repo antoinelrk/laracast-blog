@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Contracts\View\View;
+use App\Http\Requests\Posts\CreateRequest;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -15,9 +17,12 @@ class PostController extends Controller
      */
     public function index(): View
     {    
-        return view('posts', [
-            'posts' => Post::latest()->filter(request(['search']))->get(),
-            'categories' => Category::all(),
+        return view('posts.index', [
+            'posts' => Post::latest()
+                ->published()
+                ->filter(request(['search', 'category', 'author']))
+                ->paginate()
+                ->withQueryString()
         ]);
     }
 
@@ -28,8 +33,33 @@ class PostController extends Controller
      */
     public function show(Post $post): View
     {
-        return view('post', [
+        return view('posts.show', [
             'post' => $post->load('category', 'author')
         ]);
+    }
+
+    public function create(): View
+    {
+        return view('admin.posts.create');
+    }
+
+    public function store(CreateRequest $request)
+    {
+        $path = $request->file('thumbnail')->store('thumbnails', 'public');
+
+        $data = [
+            'title' => $request->title,
+            'excerpt' => $request->excerpt,
+            'body' => $request->body,
+            'user_id' => auth()->user()->id,
+            'thumbnail' => $path,
+            'published_at' => $request->published ? Carbon::now() : NULL,
+            'category_id' => $request->category_id,
+            'slug' => Str::slug($request->title)
+        ];
+
+        $post = Post::create($data);
+
+        return redirect(route('posts.show', $post));
     }
 }
