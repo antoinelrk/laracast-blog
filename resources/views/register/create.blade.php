@@ -5,7 +5,15 @@
             <form action="/register" method="POST" class="mt-10">
                 @csrf
                 <!-- Username -->
-                <div class="mb-6">
+                <x-form.input name="username" />
+                <x-form.input name="name" />
+                <x-form.input name="email" type="email" />
+                <x-form.input name="password" type="password" />
+                <x-form.input name="password_confirmation" type="password" />
+
+                <x-form.button>Register</x-form.button>
+
+                {{-- <div class="mb-6">
                     <label for="username" class="block mb-2 uppercase font-bold text-xs text-gray-700">
                         Username
                     </label>
@@ -19,10 +27,10 @@
                         required
                     >
     
-                </div>
+                </div> --}}
 
                 <!-- Name -->
-                <div class="mb-6">
+                {{-- <div class="mb-6">
                     <label for="name" class="block mb-2 uppercase font-bold text-xs text-gray-700">
                         Name
                     </label>
@@ -40,10 +48,10 @@
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
     
-                </div>
+                </div> --}}
 
                 <!-- E-Mail -->
-                <div class="mb-6">
+                {{-- <div class="mb-6">
                     <label for="email" class="block mb-2 uppercase font-bold text-xs text-gray-700">
                         E-Mail
                     </label>
@@ -57,10 +65,10 @@
                         required
                     >
     
-                </div>
+                </div> --}}
 
                 <!-- Password -->
-                <div class="mb-6">
+                {{-- <div class="mb-6">
                     <label for="password" class="block mb-2 uppercase font-bold text-xs text-gray-700">
                         Password
                     </label>
@@ -73,10 +81,10 @@
                         required
                     >
     
-                </div>
+                </div> --}}
 
                 <!-- Password confirmation -->
-                <div class="mb-6">
+                {{-- <div class="mb-6">
                     <label for="password_confirmation" class="block mb-2 uppercase font-bold text-xs text-gray-700">
                         Password Confirmation
                     </label>
@@ -89,12 +97,12 @@
                         required
                     >
     
-                </div>
+                </div> --}}
 
                 <!-- Submit button -->
-                <div class="mb-6">
+                {{-- <div class="mb-6">
                     <x-submit-button>Register</x-submit-button>
-                </div>
+                </div> --}}
             </form>
         </main>
     </section>
